@@ -1,8 +1,9 @@
 import { Hono } from 'hono';
 import db from '../config/database';
 import { RowDataPacket, ResultSetHeader } from 'mysql2';
+import { AppContext } from '../types';
 
-const clientesRoutes = new Hono();
+const clientesRoutes = new Hono<AppContext>();
 
 // Listar todos os clientes
 clientesRoutes.get('/', async (c) => {

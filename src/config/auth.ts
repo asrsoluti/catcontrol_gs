@@ -27,7 +27,7 @@ export const auth = {
   generateToken(payload: TokenPayload): string {
     return jwt.sign(payload, JWT_SECRET, {
       expiresIn: JWT_EXPIRES_IN
-    });
+    } as jwt.SignOptions);
   },
 
   // Verificar token JWT

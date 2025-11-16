@@ -95,12 +95,21 @@ webapp/
 │   ├── config/          # Configurações (database, auth)
 │   ├── middleware/      # Middlewares (autenticação)
 │   ├── routes/          # Rotas da API
+│   ├── types/           # TypeScript types
 │   └── index.ts        # Arquivo principal
+├── dist/               # Código compilado (gerado após build)
 ├── database/
 │   └── schema.sql      # Estrutura do banco de dados
 ├── uploads/            # Arquivos enviados
 ├── .env               # Configurações de ambiente
+├── .htaccess          # Configuração Apache
+├── apache-vhost.conf  # Virtual Host Apache
+├── nginx.conf         # Configuração Nginx
+├── Dockerfile         # Configuração Docker
+├── docker-compose.yml # Docker Compose
+├── ecosystem.config.js # PM2 Production
 ├── package.json       # Dependências
+├── DEPLOY.md         # Guia completo de deploy
 └── README.md         # Documentação
 ```
 
@@ -245,6 +254,34 @@ Abra o navegador em: `http://localhost:3000`
 3. Commit suas mudanças
 4. Push para a branch
 5. Abra um Pull Request
+
+## 🌐 URLs do Projeto
+
+- **Repositório GitHub**: https://github.com/asrsoluti/catcontrol_gs
+- **Aplicação Demo**: (Configure após deploy)
+- **API Health Check**: http://localhost:3000/api/health
+- **Documentação API**: Ver arquivo API.md
+
+## 📦 Deploy
+
+Para fazer o deploy do sistema, consulte o **[Guia Completo de Deploy](DEPLOY.md)** que inclui:
+
+- Deploy em VPS/Servidor Dedicado (Linux)
+- Deploy em Hospedagem Compartilhada (cPanel)
+- Deploy com Docker
+- Configuração Apache e Nginx
+- Configuração SSL/HTTPS
+- Monitoramento e Manutenção
+
+**Compilar o projeto:**
+```bash
+npm run build  # Gera pasta dist/
+```
+
+**Iniciar em produção:**
+```bash
+pm2 start ecosystem.config.js --env production
+```
 
 ## 📝 Licença
 

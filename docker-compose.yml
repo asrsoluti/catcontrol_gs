@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  # Banco de Dados MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: cat-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_change_me
+      MYSQL_DATABASE: cat_system
+      MYSQL_USER: cat_user
+      MYSQL_PASSWORD: cat_password_change_me
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    networks:
+      - cat-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Aplicação Node.js
+  app:
+    build: .
+    container_name: cat-app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: cat_user
+      DB_PASSWORD: cat_password_change_me
+      DB_NAME: cat_system
+      PORT: 3000
+      NODE_ENV: production
+      JWT_SECRET: change_this_secret_key
+      JWT_EXPIRES_IN: 24h
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - cat-network
+
+  # Servidor Web Nginx (opcional - proxy reverso)
+  nginx:
+    image: nginx:alpine
+    container_name: cat-nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./uploads:/usr/share/nginx/html/uploads:ro
+    depends_on:
+      - app
+    networks:
+      - cat-network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  cat-network:
+    driver: bridge

@@ -2,8 +2,9 @@ import { Hono } from 'hono';
 import db from '../config/database';
 import { RowDataPacket, ResultSetHeader } from 'mysql2';
 import { format } from 'date-fns';
+import { AppContext } from '../types';
 
-const catRoutes = new Hono();
+const catRoutes = new Hono<AppContext>();
 
 // Listar todas as CATs
 catRoutes.get('/', async (c) => {

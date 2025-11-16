@@ -2,8 +2,9 @@ import { Hono } from 'hono';
 import { auth } from '../config/auth';
 import db from '../config/database';
 import { RowDataPacket } from 'mysql2';
+import { AppContext } from '../types';
 
-const authRoutes = new Hono();
+const authRoutes = new Hono<AppContext>();
 
 // Login
 authRoutes.post('/login', async (c) => {

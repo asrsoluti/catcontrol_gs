@@ -1,7 +1,8 @@
 import { Context, Next } from 'hono';
 import { auth } from '../config/auth';
+import { AppContext } from '../types';
 
-export async function authMiddleware(c: Context, next: Next) {
+export async function authMiddleware(c: Context<AppContext>, next: Next) {
   try {
     const token = c.req.header('Authorization')?.replace('Bearer ', '');
     
@@ -26,7 +27,7 @@ export async function authMiddleware(c: Context, next: Next) {
 
 // Middleware para verificar nível de acesso
 export function requireLevel(requiredLevel: string[]) {
-  return async (c: Context, next: Next) => {
+  return async (c: Context<AppContext>, next: Next) => {
     const user = c.get('user');
     
     if (!user) {

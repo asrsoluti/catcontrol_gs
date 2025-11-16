@@ -12,11 +12,12 @@ import { authMiddleware } from './middleware/auth.middleware';
 import authRoutes from './routes/auth.routes';
 import clientesRoutes from './routes/clientes.routes';
 import catRoutes from './routes/cat.routes';
+import { AppContext } from './types';
 
 // Carregar variáveis de ambiente
 dotenv.config();
 
-const app = new Hono();
+const app = new Hono<AppContext>();
 
 // Middlewares globais
 app.use('*', cors());
@@ -417,7 +418,7 @@ const port = parseInt(process.env.PORT || '3000');
 serve({
   fetch: app.fetch,
   port
-}, (info) => {
+}, (info: { port: number }) => {
   console.log(`🚀 Servidor rodando em http://localhost:${info.port}`);
   testConnection();
 });
