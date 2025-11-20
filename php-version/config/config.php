@@ -14,7 +14,12 @@ date_default_timezone_set('America/Sao_Paulo');
 
 // Configurações do Sistema
 define('SITE_NAME', 'Sistema CAT');
-define('SITE_URL', 'http://localhost/cat-system');
+// Detectar URL automaticamente
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+$host = $_SERVER['HTTP_HOST'];
+$scriptPath = str_replace('/config/config.php', '', $_SERVER['SCRIPT_NAME']);
+$scriptPath = str_replace('/config', '', $scriptPath);
+define('SITE_URL', $protocol . '://' . $host . $scriptPath);
 define('BASE_PATH', __DIR__ . '/..');
 
 // Diretórios
