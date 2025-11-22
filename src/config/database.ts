@@ -5,11 +5,11 @@ dotenv.config();
 
 // Criar pool de conexões
 const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
+  host: process.env.DB_HOST || '147.79.104.198',
   port: parseInt(process.env.DB_PORT || '3306'),
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'cat_system',
+  user: process.env.DB_USER || 'usrcatsystem',
+  password: process.env.DB_PASSWORD || 'Asr@cs#1210',
+  database: process.env.DB_NAME || 'catsystem',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
