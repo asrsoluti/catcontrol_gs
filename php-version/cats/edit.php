@@ -56,10 +56,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($success) {
             // Adicionar ao histórico se houver observações novas
             if (!empty($_POST['nova_observacao'])) {
-                $catModel->addHistorico($id, [
-                    'descricao' => $_POST['nova_observacao'],
-                    'usuario_id' => $_SESSION['user_id']
-                ]);
+                $catModel->addHistorico(
+                    $id,
+                    'OBSERVACAO',
+                    $_POST['nova_observacao'],
+                    $cat['status_id'],
+                    $data['status_id']
+                );
             }
             
             setFlashMessage('CAT atualizada com sucesso!', 'success');

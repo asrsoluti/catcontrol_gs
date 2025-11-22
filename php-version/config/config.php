@@ -68,6 +68,10 @@ spl_autoload_register(function ($class) {
 
 // Funções helper
 function redirect($url) {
+    // Se a URL não começar com http/https, adiciona SITE_URL
+    if (!preg_match('/^https?:\/\//', $url)) {
+        $url = SITE_URL . $url;
+    }
     header("Location: " . $url);
     exit;
 }
@@ -101,6 +105,9 @@ function hasPermission($permission) {
     
     // Admin tem todas as permissões
     if ($nivel === 'Administrador') return true;
+    
+    // Verificação especial para 'admin'
+    if ($permission === 'admin' && $nivel === 'Administrador') return true;
     
     // Lógica de permissões por nível
     $permissions = [
@@ -159,5 +166,17 @@ function getSuccess() {
 
 function getError() {
     return flash('error');
+}
+
+function setFlashMessage($message, $type = 'success') {
+    if ($type === 'success') {
+        setSuccess($message);
+    } else {
+        setError($message);
+    }
+}
+
+function url($path) {
+    return SITE_URL . $path;
 }
 ?>
